@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import GlobalProvider from "./context/GlobalContext";
+import { Suspense, lazy } from "react";
+import SplashScreen from "./components/SplashScreen/SplashScreen";
+import { BrowserRouter as Router } from "react-router-dom";
 
-function App() {
+const AppRoutes = lazy(() => import("./routes/app.routes"));
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Suspense fallback={<SplashScreen />}>
+      <Router>
+        <GlobalProvider>
+          <AppRoutes />
+        </GlobalProvider>
+      </Router>
+    </Suspense>
   );
 }
-
-export default App;
